@@ -62,6 +62,16 @@ above and run `/docs-index` in a new session. The helper path changes with the
 install location, so `/docs-index` reports the personal instruction as
 different and offers to repair it.
 
+## Models
+
+The skills run on the model of your session; a plugin cannot select it. Select
+GPT-6.1 Sol with `xhigh` reasoning effort (`/model`) before you run a skill.
+
+The internal agents select their own models: `repository-discovery` runs on
+GPT-6.1 Sol and `documentation-reviewer` on Claude Opus 5.5, both with `xhigh`
+reasoning effort. The review therefore comes from a different model family than
+the drafts. Both models must be available under your Copilot plan and policies.
+
 ## How it fits together
 
 1. One person runs `/docs-index` and creates the index, preferably with a remote

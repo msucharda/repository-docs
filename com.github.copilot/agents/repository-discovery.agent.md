@@ -2,6 +2,8 @@
 name: "repository-discovery"
 description: "Internal helper of docs-create: survey a repository's reusable libraries and integrations for cross-project reuse documentation and return an inventory with dispositions and source routes. Read-only."
 tools: ["read", "search"]
+model: "gpt-6.1-sol"
+reasoning-effort: "xhigh"
 ---
 
 # Repository discovery

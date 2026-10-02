@@ -2,6 +2,8 @@
 name: "documentation-reviewer"
 description: "Internal helper of docs-create and docs-update: independently review reuse documentation drafts for omitted behavior and unsupported claims, deriving expectations from source first. Read-only and advisory."
 tools: ["read", "search"]
+model: "claude-opus-5.5"
+reasoning-effort: "xhigh"
 ---
 
 # Documentation reviewer

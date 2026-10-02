@@ -7,6 +7,11 @@ export const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..'
 export const schemaUrl = 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json';
 export const skills = ['docs-create', 'docs-index', 'docs-update'];
 export const agents = ['documentation-reviewer', 'repository-discovery'];
+// Review runs on a different model family than discovery, both at xhigh effort.
+export const agentModels = {
+  'documentation-reviewer': 'claude-opus-5.5',
+  'repository-discovery': 'gpt-6.1-sol',
+};
 export const procedures = [
   ...skills.map(name => `skills/${name}/SKILL.md`),
   ...agents.map(name => `com.github.copilot/agents/${name}.agent.md`),
@@ -83,13 +88,16 @@ export function frontmatter(text) {
 
 export function validateProcedure(text, name, readOnlyAgent = false) {
   const fields = frontmatter(text);
-  assert.deepEqual(Object.keys(fields).sort(),
-    (readOnlyAgent ? ['name', 'description', 'tools'] : ['name', 'description', 'compatibility']).sort());
+  assert.deepEqual(Object.keys(fields).sort(), (readOnlyAgent
+    ? ['name', 'description', 'tools', 'model', 'reasoning-effort']
+    : ['name', 'description', 'compatibility']).sort());
   assert.equal(fields.name, name);
   assert.equal(typeof fields.description, 'string');
   assert.ok(fields.description.length > 0 && fields.description.length <= 1024);
   if (readOnlyAgent) {
     assert.deepEqual(fields.tools, ['read', 'search'], 'Read-only agents must have only documented read/search aliases');
+    assert.equal(fields.model, agentModels[name], `${name} must run on ${agentModels[name]}`);
+    assert.equal(fields['reasoning-effort'], 'xhigh', `${name} must use xhigh reasoning effort`);
   } else {
     assert.equal(typeof fields.compatibility, 'string');
     assert.ok(fields.compatibility.length > 0 && fields.compatibility.length <= 500);
