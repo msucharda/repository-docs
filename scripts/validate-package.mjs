@@ -47,6 +47,26 @@ export function validateManifest(manifest) {
   }
 }
 
+// The repository is its own Copilot plugin marketplace with a single entry that
+// installs the package root and mirrors the plugin manifest.
+export function validateMarketplace(marketplace, manifest) {
+  for (const key of Object.keys(marketplace)) {
+    assert.ok(['name', 'owner', 'metadata', 'plugins'].includes(key), `Unsupported marketplace field: ${key}`);
+  }
+  assert.equal(marketplace.name, manifest.name, 'The marketplace is named after the plugin');
+  assert.ok(marketplace.owner && typeof marketplace.owner.name === 'string' && marketplace.owner.name,
+    'The marketplace needs an owner name');
+  assert.ok(Array.isArray(marketplace.plugins) && marketplace.plugins.length === 1,
+    'The marketplace lists exactly one plugin');
+  const [entry] = marketplace.plugins;
+  const mirrored = ['name', 'description', 'version', 'repository', 'license', 'keywords'];
+  assert.deepEqual(Object.keys(entry).sort(), [...mirrored, 'source'].sort(), 'Unexpected marketplace entry fields');
+  assert.equal(entry.source, './', 'The marketplace entry installs the repository root');
+  for (const key of mirrored) {
+    assert.deepEqual(entry[key], manifest[key], `Marketplace entry ${key} must match plugin.json`);
+  }
+}
+
 // This package deliberately uses single-line JSON values, a small YAML subset.
 export function frontmatter(text) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n/.exec(text);
@@ -113,6 +133,7 @@ export function validatePackage(root = packageRoot) {
   assert.equal(manifest.name, 'repository-docs');
   assert.equal(manifest.version, '0.7.0');
   assert.equal(manifest.license, 'MIT', 'The package is MIT licensed');
+  validateMarketplace(JSON.parse(readFileSync(join(root, '.github', 'plugin', 'marketplace.json'), 'utf8')), manifest);
   assert.deepEqual(readdirSync(join(root, 'skills')).sort(), skills, 'Users see exactly three skills');
   assert.deepEqual(readdirSync(join(root, 'com.github.copilot', 'agents')).sort(),
     agents.map(name => `${name}.agent.md`));

@@ -37,12 +37,30 @@ Review by an agent is advisory, not a guarantee.
 Requires GitHub Copilot CLI, Node.js 22+ and Git. The helper uses only Node
 built-ins, so there is nothing to `npm install`.
 
+This repository is also a plugin marketplace named `repository-docs`. Register
+it once, then install the plugin from it:
+
 ```powershell
-copilot plugin install msucharda/repository-docs
+copilot plugin marketplace add msucharda/repository-docs
+copilot plugin install repository-docs@repository-docs
 ```
 
+In an interactive session, use `/plugin marketplace add` and `/plugin install`
+with the same arguments. In the GitHub Copilot app, browse marketplaces and
+install plugins under **Customize** > **Plugins**. Copilot CLI has
+deprecated direct installs from a repository (`copilot plugin install
+msucharda/repository-docs`); only `plugin@marketplace` installs remain
+supported.
+
 Start a **new** session; `/skills list` shows the three skills. Installing does
-not change any repository.
+not change any repository. To get a newer version, run `copilot plugin update
+repository-docs`.
+
+If you installed the plugin directly from the repository before, run
+`copilot plugin uninstall repository-docs`, install it from the marketplace as
+above and run `/docs-index` in a new session. The helper path changes with the
+install location, so `/docs-index` reports the personal instruction as
+different and offers to repair it.
 
 ## How it fits together
 
