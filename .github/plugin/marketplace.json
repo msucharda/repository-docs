@@ -11,7 +11,7 @@
       "name": "repository-docs",
       "source": "./",
       "description": "Three skills for reuse documentation across an organization: docs-index sets up the organization reuse index, docs-create documents a repository's reusable libraries and integrations and publishes them, docs-update keeps that documentation and the index current.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "repository": "https://github.com/msucharda/repository-docs",
       "license": "MIT",
       "keywords": ["documentation", "reuse", "index", "libraries", "integrations"]

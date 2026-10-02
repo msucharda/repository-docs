@@ -16,9 +16,13 @@ Do every step yourself; the user only answers the questions below. Follow the
    clone is present and the pointer is `present`, tell the user the index
    already exists: its path, its remote URL (or local only) and how many
    repositories are published. Change nothing and stop. If the configuration
-   exists but the clone is missing or the pointer is missing or different, say
-   so and offer one repair: `connect` with the configured root, index name and
-   URL. A lost local-only index cannot be repaired; report that and stop.
+   exists but the pointer is missing or different while the clone is present,
+   say so and offer one repair, for a remote or a local-only index alike: show
+   the old and new instruction (the helper path changes when the plugin is
+   installed elsewhere), ask one confirmation, then run `repair`, piping `yes`
+   only when the user approved replacing a different instruction. If the clone
+   is missing, offer `connect` with the configured root, index name and URL
+   instead. A lost local-only index cannot be repaired; report that and stop.
 
 2. **Ask for an existing index.** Otherwise ask whether the user has the Git URL
    of an existing organization index repository. If they do, take the URL.

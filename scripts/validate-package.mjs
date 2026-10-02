@@ -139,7 +139,7 @@ export function validatePackage(root = packageRoot) {
   const manifest = JSON.parse(readFileSync(join(root, 'plugin.json'), 'utf8'));
   validateManifest(manifest);
   assert.equal(manifest.name, 'repository-docs');
-  assert.equal(manifest.version, '1.0.0');
+  assert.equal(manifest.version, '1.0.1');
   assert.equal(manifest.license, 'MIT', 'The package is MIT licensed');
   validateMarketplace(JSON.parse(readFileSync(join(root, '.github', 'plugin', 'marketplace.json'), 'utf8')), manifest);
   assert.deepEqual(readdirSync(join(root, 'skills')).sort(), skills, 'Users see exactly three skills');

@@ -17,8 +17,8 @@ exactly what, if anything, is left for you to do.
 
 ## Status
 
-Version `1.0.0`, the first stable release. Developed and evaluated with GitHub
-Copilot CLI, mostly on synthetic fixtures:
+Version `1.0.1`. Developed and evaluated with GitHub Copilot CLI, mostly on
+synthetic fixtures:
 
 - With one always-loaded instruction pointing to the reuse index, fresh agents
   reused the right library in every synthetic cross-repository run; without
@@ -26,11 +26,13 @@ Copilot CLI, mostly on synthetic fixtures:
 - Reuse pages cut exploration by 30-45%, but did not change correctness
   against small, readable libraries.
 
-Version `1.0.0` installs from this repository's plugin marketplace and pins the
-models of the internal agents. Its helper is covered by local fixture tests and
-the skills have been used on real repositories; on-demand cloning by agents,
-real GitHub or Azure DevOps organizations, and hosts other than Copilot have
-not been evaluated yet. Review by an agent is advisory, not a guarantee.
+Version `1.0.0`, the first stable release, installs from this repository's
+plugin marketplace and pins the models of the internal agents. Version `1.0.1`
+lets `/docs-index` repair the personal instruction of a local-only index. The
+helper is covered by local fixture tests and the skills have been used on real
+repositories; on-demand cloning by agents, real GitHub or Azure DevOps
+organizations, and hosts other than Copilot have not been evaluated yet.
+Review by an agent is advisory, not a guarantee.
 
 ## Install
 

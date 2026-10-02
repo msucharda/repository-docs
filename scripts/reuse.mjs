@@ -681,6 +681,24 @@ async function create(root, indexRepo, title, indexUrl = null) {
   writePersonalFiles(home, { root, indexRepo, indexUrl }, instruction);
 }
 
+// Rewrites the personal files for the configured index, for example after the
+// helper moved to another install location; also works for a local-only index.
+async function repair() {
+  const config = requireConfig();
+  const { home, root, indexRepo, indexUrl, index } = config;
+  checkPersonalPaths(home);
+  assert(lstatSync(index, { throwIfNoEntry: false }), indexUrl
+    ? `${index}: index clone is missing; run connect with ${indexUrl} instead`
+    : `${index}: the local-only index is missing and cannot be repaired`);
+  indexBranch(config);
+  assert(lstatSync(join(index, 'llms.txt'), { throwIfNoEntry: false })?.isFile(),
+    `${index}: missing root llms.txt or not a regular file`);
+  const instruction = instructionFor(root, indexRepo);
+  await confirmPointer(home, instruction);
+  writePersonalFiles(home, { root, indexRepo, indexUrl }, instruction);
+  console.log(`Repaired the personal files for ${index} (${indexUrl ?? 'local only, no remote'})`);
+}
+
 function ensure(name) {
   const config = requireConfig();
   refreshIndex(config, { strict: false });
@@ -884,6 +902,7 @@ function parsePublish(args) {
 const usage = 'Usage: reuse.mjs status [<project checkout>]\n'
   + '       reuse.mjs connect <root> <indexRepo> <indexUrl>\n'
   + '       reuse.mjs create <root> <indexRepo> <title> [<empty remote URL>]\n'
+  + '       reuse.mjs repair\n'
   + '       reuse.mjs ensure [<repository>]\n'
   + '       reuse.mjs publish <project checkout> [--name <n>] [--owner <o>] [--area <id>]\n'
   + '             [--area-title <t> --area-description <d>] [--via-branch]\n'
@@ -898,6 +917,8 @@ if (process.argv[1] && resolve(process.argv[1]) === helper) {
       await connect(resolve(oneLine(args[0], 'root')), args[1], args[2]);
     } else if (command === 'create' && (args.length === 3 || args.length === 4)) {
       await create(resolve(oneLine(args[0], 'root')), args[1], args[2], args[3] ?? null);
+    } else if (command === 'repair' && args.length === 0) {
+      await repair();
     } else if (command === 'ensure' && args.length <= 1) {
       ensure(args[0]);
     } else if (command === 'publish') {

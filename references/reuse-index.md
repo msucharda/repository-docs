@@ -75,12 +75,14 @@ Run from the package root as `node scripts/reuse.mjs <command>`.
 | `status [<project>]` | Read-only: configuration, pointer, index clone, published repositories with their local clone state and, for a project checkout, its branch, documentation and publication state. Uses local refs only. |
 | `connect <root> <indexRepo> <url>` | Clones an existing index (only the index) and writes the personal files. Refuses an empty remote. |
 | `create <root> <indexRepo> <title> [<url>]` | Creates a new empty index, pushes it to an empty remote when given, and writes the personal files. Refuses a remote with content. |
+| `repair` | Rewrites the personal files for the configured index, remote or local-only, for example after the helper moved to another install location. Refuses a missing index clone. |
 | `ensure [<name>]` | Refreshes the index, then clones or fast-forwards one repository as above. |
 | `publish <project> [options]` | Publishes the project's committed catalog from its `origin` default branch. |
 | `generate <index>` | Maintainer regeneration after editing `manifest.json` or `areas.json`. |
 
-When the personal pointer exists with different content, `connect` and `create`
-print both versions and replace it only after `yes` on standard input. Origins
+When the personal pointer exists with different content, `connect`, `create`
+and `repair` print both versions and replace it only after `yes` on standard
+input. Origins
 match across GitHub HTTPS and SSH forms and Azure DevOps modern, SSH and legacy
 `visualstudio.com` forms, ignoring a trailing `.git` and letter case. Commands
 that write to the index ask the remote for its default branch, so a renamed
