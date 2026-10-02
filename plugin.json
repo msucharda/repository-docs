@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "repository-docs",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Three skills for reuse documentation across an organization: docs-index sets up the organization reuse index, docs-create documents a repository's reusable libraries and integrations and publishes them, docs-update keeps that documentation and the index current.",
   "repository": "https://github.com/msucharda/repository-docs",
   "license": "MIT",
